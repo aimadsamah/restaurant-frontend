@@ -1,0 +1,166 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Cinzel:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gold: #d4af37;
+    --gold-light: #f5e98a;
+    --gold-dark: #9a7a2e;
+    --noir: #0a0a0a;
+    --noir-mid: #141414;
+    --cream: #faf8f2;
+    --font-cormorant: "Cormorant Garamond", Georgia, serif;
+    --font-jost: "Jost", system-ui, sans-serif;
+    --font-cinzel: "Cinzel", Georgia, serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-noir-950 text-cream-100;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgba(212, 175, 55, 0.3);
+    color: #faf8f2;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d4af37;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f5e98a;
+  }
+}
+
+@layer components {
+  .gold-text {
+    background: linear-gradient(135deg, #d4af37 0%, #f5e98a 50%, #b8963a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gold-border {
+    border-image: linear-gradient(135deg, #d4af37, #f5e98a, #b8963a) 1;
+  }
+
+  .btn-gold {
+    @apply relative overflow-hidden bg-transparent border border-gold-400 text-gold-400 font-accent tracking-widest uppercase text-xs px-8 py-4 transition-all duration-500;
+  }
+
+  .btn-gold::before {
+    content: "";
+    @apply absolute inset-0 bg-gold-400 transform -translate-x-full transition-transform duration-500;
+    z-index: -1;
+  }
+
+  .btn-gold:hover {
+    @apply text-noir-950;
+  }
+
+  .btn-gold:hover::before {
+    @apply translate-x-0;
+  }
+
+  .btn-gold-filled {
+    @apply bg-gold-400 text-noir-950 font-accent tracking-widest uppercase text-xs px-8 py-4 transition-all duration-300 hover:bg-gold-300;
+  }
+
+  .section-label {
+    @apply font-accent text-gold-400 tracking-ultra-wide uppercase text-xs mb-4;
+  }
+
+  .section-title {
+    @apply font-display text-5xl md:text-6xl lg:text-7xl font-light text-cream-100 leading-none;
+  }
+
+  .divider-gold {
+    @apply w-16 h-px bg-gold-400 mx-auto my-6;
+  }
+
+  .nav-link {
+    @apply font-accent text-xs tracking-widest uppercase text-cream-300 hover:text-gold-400 transition-colors duration-300;
+  }
+
+  .card-luxury {
+    @apply bg-noir-800 border border-noir-600 hover:border-gold-400/30 transition-all duration-500;
+  }
+
+  .input-luxury {
+    @apply w-full bg-transparent border-b border-noir-500 focus:border-gold-400 text-cream-100 font-body text-sm py-3 px-0 outline-none transition-colors duration-300 placeholder-noir-400;
+  }
+
+  .label-luxury {
+    @apply block font-accent text-xs tracking-widest uppercase text-cream-400 mb-2;
+  }
+
+  .glass-dark {
+    @apply bg-noir-900/80 backdrop-blur-md border border-noir-700;
+  }
+
+  .price-tag {
+    @apply font-display text-gold-400 text-xl;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-noir-700 rounded;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  /* Masquer la barre de défilement pour Chrome, Safari et Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Masquer la barre de défilement pour IE, Edge et Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* Framer Motion page transition wrapper */
+.page-transition {
+  animation: pageFadeIn 0.6s ease-out;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom lightbox overrides */
+.yarl__root {
+  --yarl__color_backdrop: rgba(5, 5, 5, 0.96) !important;
+}
