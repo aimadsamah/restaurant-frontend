@@ -55,7 +55,7 @@ function MenuItemCard({ item }: { item: MenuItem }) {
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
-          src={getImageUrl(item.image)}
+          src={getImageUrl(item.image || "")}
           alt={item.name}
           fill
           className="object-cover transition-transform duration-1000 group-hover:scale-110"
