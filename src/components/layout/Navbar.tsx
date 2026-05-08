@@ -28,9 +28,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fermer le menu lors du changement de page
   useEffect(() => {
     dispatch(closeMobileMenu());
   }, [pathname, dispatch]);
+
+  // Bloquer le scroll du corps quand le menu est ouvert
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [mobileMenuOpen]);
 
   const isAdmin = pathname.startsWith("/admin");
   if (isAdmin) return null;
@@ -87,32 +97,37 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={() => dispatch(toggleMobileMenu())}
-              className="lg:hidden text-cream-100 hover:text-gold-400 transition-colors"
+              className="lg:hidden text-cream-100 hover:text-gold-400 transition-colors z-50"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-noir-950/98 backdrop-blur-xl flex flex-col items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-[45] bg-noir-950 flex flex-col items-center justify-center overflow-hidden"
+            /* 
+               Note: J'ai retiré le backdrop-blur ici et mis un fond plein (bg-noir-950) 
+               car sur mobile, le flou sur plein écran est instable. 
+               Si tu tiens absolument au flou, utilise : "bg-noir-950/98 backdrop-blur-2xl"
+            */
           >
-            <nav className="flex flex-col items-center gap-8">
+            <nav className="flex flex-col items-center gap-8 px-6 text-center">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08 }}
+                  transition={{ delay: 0.1 + i * 0.08 }}
                 >
                   <Link
                     href={link.href}
@@ -126,27 +141,34 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
               ))}
+
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="pt-4"
               >
                 <Link
                   href="/reservation"
-                  className="flex btn-gold mt-2 text-[10px] relative z-10"
+                  className="flex btn-gold text-[12px] px-8 py-4 relative z-10"
                 >
                   Réserver une Table
                 </Link>
               </motion.div>
             </nav>
 
-            {/* Decorative */}
-            <div className="absolute bottom-0 flex flex-col items-center gap-2">
-              <div className="w-px h-6 bg-gold-400/30" />
+            {/* Decorative Footer */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="absolute bottom-12 flex flex-col items-center gap-4"
+            >
+              <div className="w-px h-12 bg-gold-400/30" />
               <p className="font-accent text-[10px] tracking-ultra-wide text-gold-400/50 uppercase">
                 Depuis. 2018
               </p>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
